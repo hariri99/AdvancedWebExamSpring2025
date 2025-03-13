@@ -11,7 +11,21 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        
+        {
+            $students = Student::all();
+            return view('students.index', compact('students'));
+        }
+    
+        public function search(Request $request)
+        {
+            if ($request->ajax()) {
+                $query = $request->get('query');
+                $students = Student::where('name', 'LIKE', "%{$query}%")->get();
+    
+                return response()->json($students);
+            }
+        }
     }
 
     /**
@@ -60,5 +74,15 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function index()
+    {
+        $students = Student::all();
+        return view('students.index', compact('students'));
+    }
+
+
     }
 }
